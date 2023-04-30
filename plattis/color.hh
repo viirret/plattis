@@ -12,15 +12,9 @@ namespace plattis
 class Color
 {
 public:
+    Color() {}
 
-    Color()
-    {
-    }
-
-    Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-        : m_r(r), m_g(g), m_b(b), m_a(a)
-    {
-    }
+    Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : m_r(r), m_g(g), m_b(b), m_a(a) {}
 
     friend std::ostream& operator<<(std::ostream& os, const Color& color)
     {
@@ -35,10 +29,7 @@ public:
         return ss.str();
     }
 
-    SDL_Color getSDLColor() const
-    {
-        return { m_r, m_g, m_b, m_a };
-    }
+    SDL_Color getSDLColor() const { return {m_r, m_g, m_b, m_a}; }
 
     void change(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
     {

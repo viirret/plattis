@@ -33,7 +33,7 @@ Window::Window(const std::string& title)
 
     // create window
     m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              display.w, display.h, SDL_WINDOW_FULLSCREEN);
+                                display.w, display.h, SDL_WINDOW_FULLSCREEN);
 
     if (!m_window)
     {

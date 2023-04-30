@@ -12,8 +12,12 @@ file(GLOB LIB_SOURCES ${project}/*.cc)
 # -werror
 add_compile_options(-Wall -Wextra -pedantic -Wconversion)
 
-include_directories(Box2D)
+# add Box2D as a subdirectory
+add_subdirectory(Box2D)
+
+# include Box2D headers
+include_directories(Box2D/include)
 
 add_executable(plattis ${LIB_SOURCES} main.cc)
 
-target_link_libraries(plattis -lSDL2 -lSDL2_image -lGL -lGLEW)
+target_link_libraries(plattis box2d -lSDL2 -lSDL2_image)

@@ -1,0 +1,17 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+AccessModifierOffset: -4
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Allman
+ColumnLimit: 100
+IndentCaseLabels: true
+PointerAlignment: Left
+SpaceAfterCStyleCast: false
+FixNamespaceComments: false
+AllowShortFunctionsOnASingleLine: true
+ContinuationIndentWidth: 8
+BinPackParameters: true

@@ -16,7 +16,7 @@ public:
 
     /// Destructor.
     ~Renderer();
-    
+
     /// Clear SDL rendering.
     void clear();
 
@@ -25,7 +25,7 @@ public:
 
     /// Draw outlines of SDL rectangle.
     void drawRect(SDL_Rect rect, const Color& color);
-    
+
     /// Fill the rendering area with color.
     void fillRect(SDL_Rect rect, const Color& color);
 

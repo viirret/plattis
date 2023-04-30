@@ -13,7 +13,7 @@ class Image
 {
 public:
     /// Constructor.
-    Image(SDL_Renderer* renderer, const std::string& filename, int x, int y);
+    Image(SDL_Renderer* renderer, const std::string& filename, float x, float y);
 
     /// Destructor.
     ~Image();
@@ -24,27 +24,19 @@ public:
     /// Change the image size.
     void setScale(float scale);
 
-    /// Set the movement speed.
-    void setSpeed(int speed);
+    virtual float getX() { return m_x; }
+    virtual float getY() { return m_y; }
 
-public:
+protected:
+    float m_x;
+    float m_y;
 
-    /// Move the image to the left.
-    void moveLeft();
-
-    /// Move the image to the right.
-    void moveRight();
-
-private:
-    int m_speed;
-    int m_x;
-    int m_y;
+    int m_width;
+    int m_height;
     float m_scale = 1.f;
 
 private:
     SDL_Texture* m_texture;
-    int m_width;
-    int m_height;
 };
 
 }

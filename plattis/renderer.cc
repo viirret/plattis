@@ -15,20 +15,11 @@ Renderer::Renderer(SDL_Window* window)
     }
 }
 
-Renderer::~Renderer() 
-{
-    SDL_DestroyRenderer(m_renderer);
-}
+Renderer::~Renderer() { SDL_DestroyRenderer(m_renderer); }
 
-void Renderer::clear()
-{
-    SDL_RenderClear(m_renderer);
-}
+void Renderer::clear() { SDL_RenderClear(m_renderer); }
 
-void Renderer::render()
-{
-    SDL_RenderPresent(m_renderer);
-}
+void Renderer::render() { SDL_RenderPresent(m_renderer); }
 
 void Renderer::drawRect(SDL_Rect rect, const Color& color)
 {
@@ -36,13 +27,13 @@ void Renderer::drawRect(SDL_Rect rect, const Color& color)
     SDL_RenderDrawRect(m_renderer, &rect);
 }
 
-void Renderer::fillRect(SDL_Rect rect, const Color &color)
+void Renderer::fillRect(SDL_Rect rect, const Color& color)
 {
     setDrawColor(color);
     SDL_RenderFillRect(m_renderer, &rect);
 }
 
-void Renderer::setDrawColor(const Color &color)
+void Renderer::setDrawColor(const Color& color)
 {
     SDL_SetRenderDrawColor(m_renderer, color.getR(), color.getG(), color.getB(), color.getA());
 }
