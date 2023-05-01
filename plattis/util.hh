@@ -22,6 +22,17 @@ template <typename T> struct StringConverter
     }
 };
 
+template<typename T>
+const T& clamp(const T& value, const T& min, const T& max)
+{
+    if (value < min)
+        return min;
+    else if (value > max)
+        return max;
+    else
+        return value;
+}
+
 }
 
 #endif

@@ -1,5 +1,5 @@
 #include "image.hh"
-#include <SDL2/SDL_render.h>
+#include "player.hh"
 
 namespace plattis
 {

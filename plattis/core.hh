@@ -3,8 +3,10 @@
 
 #include "player.hh"
 #include "rectangle.hh"
+#include "platform.hh"
 #include "renderer.hh"
 #include "window.hh"
+#include "camera.hh"
 
 namespace plattis
 {
@@ -27,6 +29,11 @@ protected:
     Renderer m_renderer;
 
     b2World* m_world;
+
+    Camera m_camera;
+
+    Platform platform;
+
     Rectangle rectangle;
     Player m_player;
 
@@ -49,12 +56,6 @@ private:
     Color m_backgroundColor;
 
     bool m_running;
-
-    // Variables for updating time.
-    const int m_fps = 1000 / 60;
-    int m_lastTime = SDL_GetTicks();
-    int m_currentTime;
-    int m_elapsedTime;
 };
 
 }
