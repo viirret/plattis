@@ -89,19 +89,27 @@ void Player::update(float deltaTime)
 
     m_body->SetLinearVelocity(vel);
 
-    // Update position based on Box2D physics.
-    //m_x = getX();
-    //m_y = getY();
-
-    // Set the camera position to be centered on the player.
-    m_camera->setX(getX() - m_camera->getWidth() / 2);
-    m_camera->setY(getY() - m_camera->getHeight() / 2);
-
-    // Update position of the player image based on the camera.
-    m_x = getX() - m_camera->getX();
+    // Set the camera y position to be centered on the player.
+    m_camera->setY((getY() - static_cast<float>(m_camera->getHeight()) / 2) + static_cast<float>(m_height) * m_scale / 2);
     m_y = getY() - m_camera->getY();
 
-
+    // Update x-position of the player.
+    
+    // Going over from the right side.
+    if(getX() + static_cast<float>(m_width) * m_scale > static_cast<float>(m_camera->getWidth()))
+    {
+        m_body->SetTransform(b2Vec2(0.0f, getY()), 0.0f);
+    }
+    // Going over from the left side.
+    else if(getX() < 0)
+    {
+        m_body->SetTransform(b2Vec2(static_cast<float>(m_camera->getWidth()) - static_cast<float>(m_width) * m_scale, getY()), 0.0f);
+    }
+    // Normal movement.
+    else
+    {
+        m_x = getX();
+    }
 }
 
 }

@@ -13,18 +13,18 @@ namespace plattis
 class Platform : public Rectangle
 {
 public:
-    Platform(int x, int y, int w, int h, b2World* world)
-        : Rectangle(x, y, w, h)
+    Platform(float x, float y, float w, float h, b2World* world)
+        : Rectangle(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h))
     {
         // Create Box2D body.
         b2BodyDef bodyDef; 
         bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(static_cast<float>(x), static_cast<float>(y));
+        bodyDef.position.Set(x, y);
         m_body = world->CreateBody(&bodyDef);
 
         // Create Box2D shape and fixture.
         b2PolygonShape shape;
-        shape.SetAsBox(static_cast<float>(w) / 2.0f, static_cast<float>(h) / 2.0f);
+        shape.SetAsBox(w / 2.0f, h / 2.0f);
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &shape;

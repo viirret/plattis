@@ -1,4 +1,5 @@
 #include "core.hh"
+#include "rectangle.hh"
 
 namespace plattis
 {
@@ -8,9 +9,18 @@ Core::Core(const std::string& title)
         m_renderer(m_window.getWindow()), 
         m_world(new b2World(b2Vec2(0.0f, 9.8f))),
         m_camera(m_window.getSizeX(), m_window.getSizeY()),
-        platform(50, 800, 500, 50, m_world),
-        rectangle(50, 500, 500, 50), 
+
+        /*
+        platform(0, -600, 500, 50, m_world),
+
+        rectangle(0, 0, 50, 50),
+        rectangle2(200, 200, 50, 50),
+        rectangle3(400, 400, 50, 50),
+        rectangle4(100, 600, 50, 50),
+        */
+
         m_player(m_renderer.getRenderer(), m_world, &m_camera),
+        m_map(m_window.getSizeX(), m_window.getSizeY(), &m_player),
         m_windowSize({0, 0, m_window.getSizeX(), m_window.getSizeY()}), m_running(true)
 {
 }
@@ -47,6 +57,9 @@ void Core::updatePlattis()
             accumulator -= timeStep * 1000;
         }
 
+        // Update map.
+        m_map.update(m_world);
+
         // Render the game state.
         render();
     }
@@ -70,11 +83,24 @@ void Core::render()
     // Update background color.
     m_renderer.fillRect(m_windowSize, m_backgroundColor);
 
+    /*
     rectangle.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
     rectangle.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
 
+    rectangle2.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
+    rectangle2.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
+
+    rectangle3.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
+    rectangle3.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
+
+    rectangle4.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
+    rectangle4.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
+
     platform.draw(m_renderer, Color(20, 20, 20, 20), &m_camera);
     platform.fill(m_renderer, Color(20, 20, 20, 20), &m_camera);
+    */
+
+    m_map.render(m_renderer, &m_camera);
 
     // Render the game state
     m_player.draw(m_renderer.getRenderer());
