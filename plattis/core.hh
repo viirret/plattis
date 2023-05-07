@@ -35,15 +35,6 @@ protected:
 
     Camera m_camera;
 
-    /*
-    Platform platform;
-
-    Rectangle rectangle;
-    Rectangle rectangle2;
-    Rectangle rectangle3;
-    Rectangle rectangle4;
-    */
-
     Player m_player;
     Map m_map;
 

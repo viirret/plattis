@@ -3,12 +3,13 @@
 
 #include "player.hh"
 #include "platform.hh"
+#include "rectangle.hh"
 #include "renderer.hh"
 
-#include <box2d/b2_world.h>
 #include <box2d/box2d.h>
 
 #include <vector>
+#include <memory>
 
 namespace plattis
 {
@@ -45,14 +46,16 @@ private:
     /// \param world The b2World.
     void startingMap(b2World* world);
 
-
 private:
 
     int m_screenWidth, m_screenHeight;
     Player* m_player;
 
-    // current tiles
-    std::vector<Platform> m_tiles;
+    // Current tiles existing in the game.
+    // Note that smart pointers in this context are totally unnecessary as this could/should be initialized as:
+    // std::vector<Platform> m_tiles;
+    // However this initialization requires use of both smart pointers and move semantics.
+    std::vector<std::unique_ptr<Rectangle>> m_tiles;
 
     // Where to create tile from player's y position.
     float updateStep = -(static_cast<float>(m_screenHeight) / 2);

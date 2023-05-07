@@ -43,6 +43,8 @@ public:
     /// \return float The y position.
     float getY() override { return m_body->GetPosition().y; }
 
+    /// Get players position compared to screen.
+    /// \return b2Vec2 Position compared to screen.
     b2Vec2 worldPos()
     {
         return m_camera->ConvertWorldToScreen(m_body->GetPosition());
@@ -63,8 +65,8 @@ private:
 
 private:
 
-    float m_maxSpeed = 1000;
-    float m_jumpImpulse = -1000000.0f;
+    float m_maxSpeed = 2000;
+    float m_jumpImpulse = -40000000.0f;
 
 private:
 

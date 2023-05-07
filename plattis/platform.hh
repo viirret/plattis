@@ -8,7 +8,7 @@
 namespace plattis
 {
 
-/// This class creates Rectangle that has Box2D body
+/// This class creates Rectangle that has Box2D body.
 
 class Platform : public Rectangle
 {
