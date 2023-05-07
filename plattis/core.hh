@@ -7,7 +7,12 @@
 #include "renderer.hh"
 #include "window.hh"
 #include "camera.hh"
+#include "enemy.hh"
 #include "map.hh"
+
+#include <deque>
+#include <thread>
+#include <mutex>
 
 namespace plattis
 {
@@ -19,6 +24,8 @@ class Core
 public:
     /// Constructor.
     Core(const std::string& title);
+
+    ~Core();
 
     /// Start plattis.
     void start();
@@ -40,6 +47,8 @@ protected:
 
     SDL_Rect m_windowSize;
 
+    std::mutex m_enemiesMutex;
+
 private:
     /// Update core.
     void updatePlattis();
@@ -54,9 +63,16 @@ private:
     void trackEvents();
 
 private:
+
+    std::thread m_spawnEnemiesThread;
+
     Color m_backgroundColor;
 
     bool m_running;
+
+private:
+
+    std::deque<Enemy> m_enemies;
 };
 
 }

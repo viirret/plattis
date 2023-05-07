@@ -32,8 +32,20 @@ Image::Image(SDL_Renderer* renderer, const std::string& filename, float x, float
     SDL_FreeSurface(surface);
 }
 
+Image::Image(Image&& other) :
+    m_texture(other.m_texture),
+    m_x(other.m_x),
+    m_y(other.m_y),
+    m_width(other.m_width),
+    m_height(other.m_height),
+    m_scale(other.m_scale)
+{
+    other.m_texture = nullptr;
+}
+
 Image::~Image()
 {
+    SDL_Log("Destroyed image");
     if (m_texture)
     {
         SDL_DestroyTexture(m_texture);

@@ -1,4 +1,5 @@
 #include "map.hh"
+#include "enemy.hh"
 #include "platform.hh"
 #include "rectangle.hh"
 #include "util.hh"

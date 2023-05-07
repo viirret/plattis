@@ -66,7 +66,7 @@ private:
 private:
 
     float m_maxSpeed = 2000;
-    float m_jumpImpulse = -40000000.0f;
+    float m_jumpImpulse = -100000000.0f;
 
 private:
 

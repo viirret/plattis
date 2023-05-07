@@ -63,7 +63,6 @@ void Player::jump()
     b2Vec2 impulse(0.0f, m_jumpImpulse);
 
     // Check if the player is already jumping and has not reached the maximum velocity
-    // TODO
     if (m_body->GetLinearVelocity().y > -10.0f) 
     {
         m_body->ApplyLinearImpulse(impulse, m_body->GetWorldCenter(), true);

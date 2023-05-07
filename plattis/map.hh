@@ -26,6 +26,7 @@ public:
 
     /// Update the map.
     /// \param world b2World pointer.
+    /// \param camera Our camera object.
     void update(b2World* world);
 
     /// Render the map.

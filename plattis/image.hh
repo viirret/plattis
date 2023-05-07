@@ -13,7 +13,18 @@ class Image
 {
 public:
     /// Constructor.
+    /// \param renderer The SDL renderer.
+    /// \param filename The .png filename.
+    /// \param x The x position of the image.
+    /// \param y The y position of the image.
     Image(SDL_Renderer* renderer, const std::string& filename, float x, float y);
+
+    /// Move constructor.
+    /// \param other The object Image.
+    Image(Image&& other);
+
+    /// Deleted copy constructor.
+    Image(const Image& other) = delete;
 
     /// Destructor.
     ~Image();
@@ -27,9 +38,10 @@ public:
     virtual float getX() { return m_x; }
     virtual float getY() { return m_y; }
 
-protected:
     float m_x;
     float m_y;
+
+protected:
 
     int m_width;
     int m_height;

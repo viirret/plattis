@@ -1,5 +1,6 @@
 #include "core.hh"
 #include "rectangle.hh"
+#include "util.hh"
 
 namespace plattis
 {
@@ -10,19 +11,38 @@ Core::Core(const std::string& title)
         m_world(new b2World(b2Vec2(0.0f, 9.8f))),
         m_camera(m_window.getSizeX(), m_window.getSizeY()),
 
-        /*
-        platform(0, -600, 500, 50, m_world),
-
-        rectangle(0, 0, 50, 50),
-        rectangle2(200, 200, 50, 50),
-        rectangle3(400, 400, 50, 50),
-        rectangle4(100, 600, 50, 50),
-        */
-
         m_player(m_renderer.getRenderer(), m_world, &m_camera),
         m_map(m_window.getSizeX(), m_window.getSizeY(), &m_player),
-        m_windowSize({0, 0, m_window.getSizeX(), m_window.getSizeY()}), m_running(true)
+        m_windowSize({0, 0, m_window.getSizeX(), m_window.getSizeY()}), m_running(true),
+        m_spawnEnemiesThread([this]() 
+        {
+            while (m_running)
+            {
+                // Sleep for 5 seconds.
+                std::this_thread::sleep_for(std::chrono::seconds(5));
+
+                // Add a new enemy.
+                {
+                    std::lock_guard<std::mutex> lock(m_enemiesMutex);
+                    m_enemies.emplace_back(m_renderer.getRenderer(), m_world, &m_camera, (static_cast<float>(m_window.getSizeX()) / 10 * 
+                                static_cast<float>(randomValue(0, 9))), m_player.getY() - 500.0f);
+                }
+
+                // Remove the oldest enemy.
+                if (m_enemies.size() > 6)
+                {
+                    std::lock_guard<std::mutex> lock(m_enemiesMutex);
+                    m_enemies.pop_front();
+                }
+            }
+        })
 {
+}
+
+Core::~Core()
+{
+    m_running = false;
+    m_spawnEnemiesThread.join();
 }
 
 void Core::start()
@@ -72,6 +92,12 @@ void Core::update(float deltaTime)
     const int positionIterations = 2;
     m_world->Step(deltaTime, velocityIterations, positionIterations);
 
+    // update enemies
+    for(auto& enemy : m_enemies)
+    {
+        enemy.update();
+    }
+
     // Update player
     m_player.update(deltaTime);
 }
@@ -83,27 +109,15 @@ void Core::render()
     // Update background color.
     m_renderer.fillRect(m_windowSize, m_backgroundColor);
 
-    /*
-    rectangle.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
-    rectangle.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
-
-    rectangle2.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
-    rectangle2.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
-
-    rectangle3.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
-    rectangle3.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
-
-    rectangle4.draw(m_renderer, Color(10, 10, 10, 255), &m_camera);
-    rectangle4.fill(m_renderer, Color(200, 200, 200, 255), &m_camera);
-
-    platform.draw(m_renderer, Color(20, 20, 20, 20), &m_camera);
-    platform.fill(m_renderer, Color(20, 20, 20, 20), &m_camera);
-    */
-
     m_map.render(m_renderer, &m_camera);
 
     // Render the game state
     m_player.draw(m_renderer.getRenderer());
+
+    for(auto& enemy : m_enemies)
+    {
+        enemy.draw(m_renderer.getRenderer());
+    }
 
     m_renderer.render();
 }
