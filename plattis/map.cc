@@ -1,4 +1,5 @@
 #include "map.hh"
+#include "util.hh"
 
 namespace plattis
 {
@@ -10,22 +11,37 @@ Map::Map(int screenWidth, int screenHeight, Player* player)
 {
 }
 
-void Map::update(b2World* world)
+void Map::startingMap(b2World* world)
 {
-    float playerY = m_player->getY();
-    
-    if(flag) 
+    for(int i = -500; i < 500; i += 100)
     {
-        setTile(0, playerY, world);
-        flag = false;
+        setTile(randomValue(0, 9), static_cast<float>(i), world);
     }
 }
 
-void Map::setTile(float xIndex, float yIndex, b2World* world)
+void Map::update(b2World* world)
 {
-    m_tiles.emplace_back(Platform((static_cast<float>(m_screenWidth) / 10 * xIndex), yIndex + updateStep, 100, 50, world));
+    float playerY = m_player->getY();
 
-    m_positions.emplace_back(xIndex, yIndex);
+    // generate little map in the beginning
+    if(!usedStartingMap) 
+    {
+        startingMap(world);
+        yUpdateIndex = playerY;
+        usedStartingMap = true;
+    }
+
+    // generate more tiles once player has passed certain line
+    if(-playerY > yUpdateIndex)
+    {
+        yUpdateIndex += 50;
+        setTile(randomValue(0, 9), playerY + updateStep, world);
+    }
+}
+
+void Map::setTile(int xIndex, float yIndex, b2World* world)
+{
+    m_tiles.emplace_back(Platform((static_cast<float>(m_screenWidth) / 10 * static_cast<float>(xIndex)), yIndex, 100, 50, world));
 }
 
 void Map::render(Renderer& renderer, Camera* camera)
@@ -35,7 +51,6 @@ void Map::render(Renderer& renderer, Camera* camera)
         tile.fill(renderer, Color(100, 100, 100, 255), camera);
     }
 }
-
 
 
 }

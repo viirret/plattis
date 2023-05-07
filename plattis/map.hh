@@ -5,10 +5,10 @@
 #include "platform.hh"
 #include "renderer.hh"
 
+#include <box2d/b2_world.h>
 #include <box2d/box2d.h>
 
 #include <vector>
-#include <utility>
 
 namespace plattis
 {
@@ -34,9 +34,17 @@ public:
 
 private:
 
-    void setTile(float xIndex, float yIndex, b2World* world);
+    /// Create a new tile.
+    /// \param xIndex X position of the tile as tenth of the screen size (numbers 0-9).
+    /// \param yIndex Y position of the tile.
+    /// \param world The b2World.
+    void setTile(int xIndex, float yIndex, b2World* world);
 
-    bool flag = true;
+    /// Set a simple starting map since we update tiles so up that 
+    /// it cannot be seen
+    /// \param world The b2World.
+    void startingMap(b2World* world);
+
 
 private:
 
@@ -46,11 +54,13 @@ private:
     // current tiles
     std::vector<Platform> m_tiles;
 
-    // tile positions
-    std::vector<std::pair<int, int>> m_positions;
-
-    // When to create new tile
+    // Where to create tile from player's y position.
     float updateStep = -(static_cast<float>(m_screenHeight) / 2);
+
+    // Keep track of the y position where new tiles are added.
+    float yUpdateIndex;
+
+    bool usedStartingMap = false;
 };
 
 }

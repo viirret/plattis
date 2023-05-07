@@ -1,27 +1,16 @@
 #ifndef PLATTIS_UTIL_HH
 #define PLATTIS_UTIL_HH
 
-#include <charconv>
-#include <stdexcept>
 #include <string>
 
 namespace plattis
 {
 
-template <typename T> struct StringConverter
-{
-    static T convert(const std::string& str)
-    {
-        T num;
-        auto [p, ec] = std::from_chars(str.data(), str.data() + str.size(), num);
-        if (ec != std::errc())
-        {
-            throw std::invalid_argument("invalid conversion");
-        }
-        return num;
-    }
-};
-
+/// Clamp function.
+/// \param value Value to be clamped.
+/// \param min Minimum value.
+/// \param max Maximum value.
+/// \return T& Clamped value.
 template<typename T>
 const T& clamp(const T& value, const T& min, const T& max)
 {
@@ -32,6 +21,12 @@ const T& clamp(const T& value, const T& min, const T& max)
     else
         return value;
 }
+
+/// Get random integer value from-to values.
+/// \param from Minimum value.
+/// \param to Maximum value.
+/// \return int Random value.
+int randomValue(int from, int to);
 
 }
 
